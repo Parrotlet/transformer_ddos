@@ -28,3 +28,9 @@ class Flow:
 
     def get_end_time(self):
         return self.flow_list[-1].timestamp
+
+    def initialize_timestamp(self):
+        init_timestamp = self.flow_list[0].timestamp
+        for packet in self.flow_list:
+            packet.timestamp -= init_timestamp
+

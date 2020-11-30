@@ -3,6 +3,11 @@ import socket
 # ip direction?
 # defines properties of a packet
 class Packet:
+    max_frame_len,min_frame_len,max_tcp_flags,min_tcp_flags = 0
+    max_tcp_window_size,min_tcp_window_size,max_tcp_len,min_tcp_len = 0
+    max_tcp_ack ,min_tcp_ack ,max_ip_flags_df,min_ip_flags_df = 0
+    max_ip_flags_mf,min_ip_flags_mf,max_udp_len,min_udp_len = 0
+    highest_layers = set()
     def __init__(self, fields):
         if fields == None:
             self.s_ip = None
@@ -40,7 +45,10 @@ class Packet:
             self.tcp_ack = int(fields[8])# max = 65536
 
             self.ip_flags_df = str(bin(int(fields[9],16)))[2]
-            self.ip_flags_mf = str(bin(int(fields[9],16)))[3]
+            if int(fields[9],16) == 0:
+                self.ip_flags_mf = 0
+            else:
+                self.ip_flags_mf = str(bin(int(fields[9],16)))[3]
 
             self.udp_len = int(fields[10]) # max = 576
 
@@ -49,14 +57,20 @@ class Packet:
             else:
                 self.key = self.d_ip + self.s_ip
 
-'''   def min_max_normalization(self, value, max_value, min_value=0):
-        if value > max_value or value < min_value:
-            print('-----')
-            print(value)
+    @staticmethod
+    def min_max_normalization(value, max_value, min_value):
         value = (value - min_value)/(max_value-min_value)
         return value
+    #
+    # def check(self,value,v):
+    #     if value > 1 or value < 0:
+    #         print(v)
+    #         print('_____')
 
-    def check(self,value,v):
-        if value > 1 or value < 0:
-            print(v)
-            print('_____')'''
+
+# class NormalizationInfo:
+#     max_frame_len,min_frame_len,max_tcp_flags,min_tcp_flags = 0
+#     max_tcp_window_size,min_tcp_window_size,max_tcp_len,min_tcp_len = 0
+#     max_tcp_ack ,min_tcp_ack ,max_ip_flags_df,min_ip_flags_df = 0
+#     max_ip_flags_mf,min_ip_flags_mf,max_udp_len,min_udp_len = 0
+
