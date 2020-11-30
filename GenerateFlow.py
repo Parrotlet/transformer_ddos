@@ -27,3 +27,4 @@ if __name__ == '__main__':
 
     packet_list_ = load_list('packet_list')
     flow_list_ = generate_flow(packet_list_,FLOWGAP)
+    save_list(flow_list_, 'flow_list')

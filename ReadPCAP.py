@@ -34,8 +34,8 @@ def filterpcap(packet):
     # else:
     #     key = dest + source
     if (packet.ip.proto == '6'):
-        s_port = packet.tcp.srcport
-        d_port = packet.tcp.dstport
+        # s_port = packet.tcp.srcport
+        # d_port = packet.tcp.dstport
         udp_len = 0
         tcp_flags = packet.tcp.flags
         tcp_window_size = packet.tcp.window_size
@@ -43,14 +43,14 @@ def filterpcap(packet):
         tcp_ack = packet.tcp.ack
     else:
         try:
-            s_port = packet.udp.srcport
-            d_port = packet.udp.dstport
+            # s_port = packet.udp.srcport
+            # d_port = packet.udp.dstport
             udp_len = packet.udp.length
             tcp_flags, tcp_window_size, tcp_len, tcp_ack = 0, 0, 0, 0
 
         except:
             print(packet)
-    p = Packet([s_ip, s_port, d_ip, d_port, timestamp, frame_len, highest_layer,
+    p = Packet([s_ip, d_ip, timestamp, frame_len, highest_layer,
                 tcp_flags, tcp_window_size, tcp_len, tcp_ack, ip_flags, udp_len])
     return p
 
