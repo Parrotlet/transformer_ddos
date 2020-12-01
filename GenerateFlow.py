@@ -1,23 +1,25 @@
 from Flow import *
 from CONSTANTS import *
+from sklearn.preprocessing import OrdinalEncoder
 
 
-def generate_flow(packet_list,flowgap):
+def generate_flow(packet_list,norm_info,flowgap):
     packet_list.sort(key=lambda packet: packet.timestamp)
     packet_list.sort(key=lambda packet: packet.key)
-
+    enc = OrdinalEncoder()
+    enc.fit(list(norm_info[0]))
     flow_list = []
     current_flow = Flow(None)
     for packet in packet_list:
-
-        packet.frame_len = packet.min_max_normalization(packet.frame_len,Packet.max_frame_len,Packet.min_frame_len)
-        packet.tcp_flags = packet.min_max_normalization(packet.tcp_flags,Packet.max_tcp_flags,Packet.min_tcp_flags)
-        packet.tcp_window_size = packet.min_max_normalization(packet.tcp_window_size,Packet.max_tcp_window_size,Packet.min_tcp_window_size)
-        packet.tcp_len = packet.min_max_normalization(packet.tcp_len,Packet.max_tcp_len,Packet.min_tcp_len)
-        packet.tcp_ack = packet.min_max_normalization(packet.tcp_ack,Packet.max_tcp_ack,Packet.min_tcp_ack)
-        packet.ip_flags_df = packet.min_max_normalization(packet.ip_flags_df,Packet.max_ip_flags_df,Packet.min_ip_flags_df)
-        packet.ip_flags_mf = packet.min_max_normalization(packet.ip_flags_mf,Packet.max_ip_flags_mf,Packet.min_ip_flags_mf)
-        packet.udp_len = packet.min_max_normalization(packet.udp_len,Packet.max_udp_len,Packet.min_udp_len)
+        packet.highest_layer = enc.transform(packet.highest_layer)
+        packet.frame_len = packet.min_max_normalization(packet.frame_len,norm_info[1],norm_info[9])
+        packet.tcp_flags = packet.min_max_normalization(packet.tcp_flags,norm_info[2],norm_info[10])
+        packet.tcp_window_size = packet.min_max_normalization(packet.tcp_window_size,norm_info[3],norm_info[11])
+        packet.tcp_len = packet.min_max_normalization(packet.tcp_len,norm_info[4],norm_info[12])
+        packet.tcp_ack = packet.min_max_normalization(packet.tcp_ack,norm_info[5],norm_info[13])
+        packet.ip_flags_df = packet.min_max_normalization(packet.ip_flags_df,norm_info[6],norm_info[14])
+        packet.ip_flags_mf = packet.min_max_normalization(packet.ip_flags_mf,norm_info[7],norm_info[15])
+        packet.udp_len = packet.min_max_normalization(packet.udp_len,norm_info[8],norm_info[16])
 
         # if ip-pairs dont match or time-difference of prev and current packet greater
         # than timegap, create a new flow
@@ -36,6 +38,8 @@ if __name__ == '__main__':
     # task.start
 
     packet_list_ = load_list('packet_list')
+    norm_info_ = load_list('norm_info')
+
     flow_list_ = generate_flow(packet_list_,FLOWGAP)
     for flow in flow_list_:
         flow.initialize_timestamp()

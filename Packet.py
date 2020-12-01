@@ -3,11 +3,7 @@ import socket
 # ip direction?
 # defines properties of a packet
 class Packet:
-    max_frame_len,min_frame_len,max_tcp_flags,min_tcp_flags = 0
-    max_tcp_window_size,min_tcp_window_size,max_tcp_len,min_tcp_len = 0
-    max_tcp_ack ,min_tcp_ack ,max_ip_flags_df,min_ip_flags_df = 0
-    max_ip_flags_mf,min_ip_flags_mf,max_udp_len,min_udp_len = 0
-    highest_layers = set()
+
     def __init__(self, fields):
         if fields == None:
             self.s_ip = None

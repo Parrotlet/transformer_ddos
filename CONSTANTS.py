@@ -1,4 +1,5 @@
 import pickle
+
 CSV_PATH_1 = 'csv/01-12/'
 # csv_list_1 = ['DrDoS_NTP.csv','DrDoS_DNS.csv','DrDoS_LDAP.csv','DrDoS_MSSQL.csv','DrDoS_NetBIOS.csv',
 #               'DrDoS_SNMP.csv','DrDoS_SSDP.csv','DrDoS_UDP.csv','UDPLag.csv','Syn.csv','TFTP.csv']
@@ -12,7 +13,6 @@ THREADLIMIT = 10
 FLOWGAP = 600
 WINDOW_TIME = 100
 WINDOW_NUMBER = 100
-
 
 
 def save_list(l,f_name):
