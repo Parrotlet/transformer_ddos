@@ -6,34 +6,35 @@ from Packet import *
 
 # Read pcap data and filter out logs that are not tcp or udp.Preserve features we need.
 # def read_pcap(pcap_dir):
-def read_pcap():
+def read_pcap(norm_info=[set()]):
     packet_list = []
     pcap = pyshark.FileCapture('SAT-01-12-2018_0.pcap',
-                               display_filter = "(ip.proto==6) or (ip.proto==17) and (!icmp)")
-
+                               display_filter="(ip.proto==6) or (ip.proto==17) and (!icmp)")
     for packet in pcap:
         packet = filterpcap(packet)
-        Packet.highest_layers.add(packet.highest_layers)
+        norm_info[0].add(packet.highest_layer)
         packet_list.append(packet)
     print('Reading pcap is done')
-    Packet.max_frame_len, Packet.min_frame_len \
-        = max(packet_list, key=lambda x: x.frame_len), min(packet_list, key=lambda x: x.frame_len)
-    Packet.max_tcp_flags, Packet.min_tcp_flags \
-        = max(packet_list, key=lambda x: x.tcp_flags), min(packet_list, key=lambda x: x.tcp_flags)
-    Packet.max_tcp_window_size, Packet.min_tcp_window_size \
-        = max(packet_list, key=lambda x: x.tcp_window_size), min(packet_list, key=lambda x: x.tcp_window_size)
-    Packet.max_tcp_len, Packet.min_tcp_len \
-        = max(packet_list, key=lambda x: x.tcp_len), min(packet_list, key=lambda x: x.tcp_len)
-    Packet.max_tcp_ack, Packet.min_tcp_ack \
-        = max(packet_list, key=lambda x: x.tcp_ack), min(packet_list, key=lambda x: x.tcp_ack)
-    Packet.max_ip_flags_df, Packet.min_ip_flags_df \
-        = max(packet_list, key=lambda x: x.ip_flags_df), min(packet_list, key=lambda x: x.ip_flags_df)
-    Packet.max_ip_flags_mf, Packet.min_ip_flags_mf \
-        = max(packet_list, key=lambda x: x.ip_flags_mf), min(packet_list, key=lambda x: x.ip_flags_mf)
-    Packet.max_udp_len, Packet.min_udp_len \
-        = max(packet_list, key=lambda x: x.udp_len), min(packet_list, key=lambda x: x.udp_len)
 
-    return packet_list
+    norm_info.append(max(packet_list, key=lambda x: x.frame_len))
+    norm_info.append(max(packet_list, key=lambda x: x.tcp_flags))
+    norm_info.append(max(packet_list, key=lambda x: x.tcp_window_size))
+    norm_info.append(max(packet_list, key=lambda x: x.tcp_len))
+    norm_info.append(max(packet_list, key=lambda x: x.tcp_ack))
+    norm_info.append(max(packet_list, key=lambda x: x.ip_flags_df))
+    norm_info.append(max(packet_list, key=lambda x: x.ip_flags_mf))
+    norm_info.append(max(packet_list, key=lambda x: x.udp_len))
+
+    norm_info.append(min(packet_list, key=lambda x: x.frame_len))
+    norm_info.append(min(packet_list, key=lambda x: x.tcp_flags))
+    norm_info.append(min(packet_list, key=lambda x: x.tcp_window_size))
+    norm_info.append(min(packet_list, key=lambda x: x.tcp_len))
+    norm_info.append(min(packet_list, key=lambda x: x.tcp_ack))
+    norm_info.append(min(packet_list, key=lambda x: x.ip_flags_df))
+    norm_info.append(min(packet_list, key=lambda x: x.ip_flags_mf))
+    norm_info.append(min(packet_list, key=lambda x: x.udp_len))
+
+    return packet_list,norm_info
 
 
 def filterpcap(packet):
@@ -87,5 +88,6 @@ if __name__ == '__main__':
     # task = MP.Process(target=read_pcap)
     # task.start
 
-    packet_list_ = read_pcap()
+    packet_list_,norm_info_ = read_pcap()
     save_list(packet_list_,'packet_list')
+    save_list(norm_info_,'norm_info')
