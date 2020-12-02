@@ -1,5 +1,6 @@
 import socket
 
+
 # ip direction?
 # defines properties of a packet
 class Packet:
@@ -34,17 +35,17 @@ class Packet:
 
             self.tcp_flags = int(str(fields[5]),16) # max = 2 ^ 9 -1 =511
 
-            self.tcp_window_size = int(fields[6]),65535 # max = 65535
+            self.tcp_window_size = int(fields[6]) # max = 65535
 
             self.tcp_len = int(fields[7])# max = 576
 
             self.tcp_ack = int(fields[8])# max = 65536
 
-            self.ip_flags_df = str(bin(int(fields[9],16)))[2]
+            self.ip_flags_df = int(str(bin(int(fields[9],16)))[2])
             if int(fields[9],16) == 0:
                 self.ip_flags_mf = 0
             else:
-                self.ip_flags_mf = str(bin(int(fields[9],16)))[3]
+                self.ip_flags_mf = int(str(bin(int(fields[9],16)))[3])
 
             self.udp_len = int(fields[10]) # max = 576
 

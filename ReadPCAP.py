@@ -1,43 +1,50 @@
 import pyshark
-
+import time
 from CONSTANTS import *
 from Packet import *
 
 
-# Read pcap data and filter out logs that are not tcp or udp.Preserve features we need.
+# Read pcap data and filter out logs that are not tcp or udp. Preserve features we need.
 # def read_pcap(pcap_dir):
 def read_pcap(norm_info=[set()]):
     packet_list = []
-    pcap = pyshark.FileCapture('SAT-01-12-2018_0.pcap',
+    pcap = pyshark.FileCapture('pcap/01-12/PCAP-01-12_0-0249/SAT-01-12-2018_0',
                                display_filter="(ip.proto==6) or (ip.proto==17) and (!icmp)")
+    filter_start_time = time.time()
     for packet in pcap:
-        packet = filterpcap(packet)
+        packet = filter_pcap(packet)
         norm_info[0].add(packet.highest_layer)
         packet_list.append(packet)
+    filter_end_time = time.time()
     print('Reading pcap is done')
+    print('Reading time is',filter_end_time-filter_start_time)
 
-    norm_info.append(max(packet_list, key=lambda x: x.frame_len))
-    norm_info.append(max(packet_list, key=lambda x: x.tcp_flags))
-    norm_info.append(max(packet_list, key=lambda x: x.tcp_window_size))
-    norm_info.append(max(packet_list, key=lambda x: x.tcp_len))
-    norm_info.append(max(packet_list, key=lambda x: x.tcp_ack))
-    norm_info.append(max(packet_list, key=lambda x: x.ip_flags_df))
-    norm_info.append(max(packet_list, key=lambda x: x.ip_flags_mf))
-    norm_info.append(max(packet_list, key=lambda x: x.udp_len))
 
-    norm_info.append(min(packet_list, key=lambda x: x.frame_len))
-    norm_info.append(min(packet_list, key=lambda x: x.tcp_flags))
-    norm_info.append(min(packet_list, key=lambda x: x.tcp_window_size))
-    norm_info.append(min(packet_list, key=lambda x: x.tcp_len))
-    norm_info.append(min(packet_list, key=lambda x: x.tcp_ack))
-    norm_info.append(min(packet_list, key=lambda x: x.ip_flags_df))
-    norm_info.append(min(packet_list, key=lambda x: x.ip_flags_mf))
-    norm_info.append(min(packet_list, key=lambda x: x.udp_len))
+    # get normalization info
+    # norm_info.append(max(x.frame_len for x in packet_list))
 
+    norm_info.append(max(packet_list, key=lambda x: x.frame_len).frame_len)
+    norm_info.append(max(packet_list, key=lambda x: x.tcp_flags).tcp_flags)
+    norm_info.append(max(packet_list, key=lambda x: x.tcp_window_size).tcp_window_size)
+    norm_info.append(max(packet_list, key=lambda x: x.tcp_len).tcp_len)
+    norm_info.append(max(packet_list, key=lambda x: x.tcp_ack).tcp_ack)
+    norm_info.append(max(packet_list, key=lambda x: x.udp_len).udp_len)
+
+    norm_info.append(min(packet_list, key=lambda x: x.frame_len).frame_len)
+    norm_info.append(min(packet_list, key=lambda x: x.tcp_flags).tcp_flags)
+    norm_info.append(min(packet_list, key=lambda x: x.tcp_window_size).tcp_window_size)
+    norm_info.append(min(packet_list, key=lambda x: x.tcp_len).tcp_len)
+    norm_info.append(min(packet_list, key=lambda x: x.tcp_ack).tcp_ack)
+    norm_info.append(min(packet_list, key=lambda x: x.udp_len).udp_len)
+
+    norm_info.append(len(norm_info[0]))
+    norm_end_time = time.time()
+    print('getting normalization info is done ')
+    print('normalization time',norm_end_time-filter_end_time)
     return packet_list,norm_info
 
 
-def filterpcap(packet):
+def filter_pcap(packet):
     s_ip = packet.ip.src
     d_ip = packet.ip.dst
     ip_flags = packet.ip.flags
