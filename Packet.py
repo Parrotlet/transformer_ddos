@@ -56,7 +56,7 @@ class Packet:
 
     @staticmethod
     def min_max_normalization(value, max_value, min_value):
-        value = (value - min_value)/(max_value-min_value)
+        value = float((value - min_value)/(max_value-min_value))
         return value
     #
     # def check(self,value,v):
