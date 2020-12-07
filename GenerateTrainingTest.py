@@ -49,3 +49,4 @@ if __name__ == '__main__':
     flow_list_ = load_list('flow_list')
     dim_num_ = load_list('norm_info')[-1] + FEATURE_NUM
     data_np_ = flow_to_numpy(flow_list_,dim_num_)
+    np.save('data_np',data_np_)

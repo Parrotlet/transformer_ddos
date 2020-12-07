@@ -31,6 +31,7 @@ def read_label_csv(dir_path, filename, filter_=False):
     # csv.iloc[:5000].to_csv("NTP5000.csv")
     return label_df
 
+
 # Read pcap data and filter out logs that are not tcp or udp.Preserve features we need.
 # def read_pcap(pcap_dir):
 def read_pcap():
@@ -80,16 +81,15 @@ def read_pcap():
                            , 'ip_flags':ip_flags, 'udp_len':udp_len},ignore_index=True)
     return pcap_df
 
-def generate_flow(pcap_df):
-    pcap_df = pcap_df.sort_values(by=['key'])
-    return pcap_df
 
 
 if __name__ == '__main__':
+    label_df = read_label_csv(csv_path_1, csv_list_1)
+    # pcap_df = read_pcap()
+    # print('read ok')
+    # pcap_df.to_pickle('pcap_df1')
 
-    pcap_df = read_pcap()
-    print('read ok')
-    pcap_df = generate_flow(pcap_df)
-    print('sort ok')
-    pcap_df.to_pickle('pcap_df1')
-    # label_df = read_label_csv(csv_path_1, csv_list_1)
+    # print(label_df[(label_df['label'] == 'BENIGN')])
+    # print(label_df[((label_df['s_ip'] == '172.16.0.5') | (label_df['d_ip'] == '172.16.0.5')) ])
+
+    print(label_df[(((label_df['s_ip'] == '172.16.0.5') | (label_df['d_ip'] == '172.16.0.5')) & (label_df['label'] == 'BENIGN'))])
