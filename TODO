@@ -1,3 +1,5 @@
-1. Multiprocess
-2. Read all data,and categorize them by ddos types
-3. Model
+1. Different Model,Dataloader
+2. train/validation/test
+3. Multiprocess
+4. Read all data,and categorize them by ddos types
+
