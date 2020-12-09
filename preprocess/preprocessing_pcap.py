@@ -83,18 +83,22 @@ def read_pcap():
 
 
 def read_ddos_start(csv_dir):
+    start_dict={}
     for file in os.listdir(csv_dir):
         if file[-4:] != '.csv':
             continue
         csv = pd.read_csv(csv_dir+file, usecols=[2, 3, 4, 5, 6, 7, 8, 9, 10, 87], header=0,
                                 names=['s_ip', 's_port', 'd_ip', 'd_port', 'protocol', 'timestamp', 'flow_duration',
                                        'total_fwd', 'total_bwd','label']
-                                     , low_memory=False, parse_dates=['timestamp'],nrows=100)
-        print(file,':',csv['timestamp'][0])
+                                     , low_memory=False,nrows=100)
+        start_dict[file[:-4]] = csv['timestamp'][0]
+
+    return start_dict
 
 
 if __name__ == '__main__':
-    read_ddos_start(CSV_PATH_2)
+    dict = read_ddos_start(CSV_PATH_1)
+    print(dict)
     # label_df = read_label_csv(csv_path_1, csv_list_1)
     # pcap_df = read_pcap()
     # print('read ok')
