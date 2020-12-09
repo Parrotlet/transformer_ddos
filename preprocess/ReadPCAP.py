@@ -1,14 +1,14 @@
 import pyshark
 import time
-from CONSTANTS import *
-from Packet import *
+from preprocess.CONSTANTS import *
+from preprocess.Packet import *
 
 
 # Read pcap data and filter out logs that are not tcp or udp. Preserve features we need.
 # def read_pcap(pcap_dir):
 def read_pcap(norm_info=[set()]):
     packet_list = []
-    pcap = pyshark.FileCapture('pcap/01-12/PCAP-01-12_0-0249/SAT-01-12-2018_0',
+    pcap = pyshark.FileCapture('../pcap/01-12/PCAP-01-12_0-0249/SAT-01-12-2018_0',
                                display_filter="(ip.proto==6) or (ip.proto==17) and (!icmp)")
     filter_start_time = time.time()
     for packet in pcap:
@@ -96,5 +96,5 @@ if __name__ == '__main__':
     # task.start
 
     packet_list_,norm_info_ = read_pcap()
-    save_list(packet_list_,'temp/packet_list')
-    save_list(norm_info_,'temp/norm_info')
+    save_list(packet_list_,'../temp/packet_list')
+    save_list(norm_info_,'../temp/norm_info')

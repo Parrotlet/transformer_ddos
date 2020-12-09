@@ -1,8 +1,5 @@
-import torch
 import numpy as np
-import CONSTANTS
-from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms, utils
+from torch.utils.data import Dataset
 
 
 class DDOSDataset(Dataset):

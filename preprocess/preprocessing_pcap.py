@@ -1,8 +1,6 @@
 import pyshark
 import pandas as pd
 import socket
-from CONSTANTS import *
-import multiprocessing as MP
 
 
 def read_label_csv(dir_path, filename, filter_=False):
@@ -39,7 +37,7 @@ def read_pcap():
                                     'tcp_flags', 'tcp_window_size', 'tcp_len', 'tcp_ack',
                                     'ip_flags', 'udp_len'])
 
-    pcap = pyshark.FileCapture('pcap/01-12/PCAP-01-12_0-0249/SAT-01-12-2018_0',
+    pcap = pyshark.FileCapture('../pcap/01-12/PCAP-01-12_0-0249/SAT-01-12-2018_0',
                                display_filter = "(ip.proto==6) or (ip.proto==17) and (!icmp)")
     for packet in pcap:
         s_ip = packet.ip.src

@@ -1,7 +1,6 @@
 import numpy as np
 from math import ceil,floor
-from Flow import *
-from CONSTANTS import *
+from preprocess.CONSTANTS import *
 
 
 # data normalization ---> pytorch dataset
@@ -47,7 +46,7 @@ if __name__ == '__main__':
     # task = MP.Process(target=read_pcap)
     # task.start
 
-    flow_list_ = load_list('temp/flow_list')
-    dim_num_ = load_list('temp/norm_info')[-1] + FEATURE_NUM
+    flow_list_ = load_list('../temp/flow_list')
+    dim_num_ = load_list('../temp/norm_info')[-1] + FEATURE_NUM
     data_np_ = flow_to_numpy(flow_list_,dim_num_)
-    np.save('temp/data_np',data_np_)
+    np.save('../temp/data_np',data_np_)
