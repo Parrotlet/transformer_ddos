@@ -20,9 +20,9 @@ DDOS_START_TIME_2 = {'Syn': '2018-11-03 11:36:28.607338', 'LDAP': '2018-11-03 10
 ATTACKER_IP = ['172.16.0.5']
 VICTIM_IP_TRAING = ['192.168.50.1', '192.168.50.5', '192.168.50.6', '192.168.50.7', '192.168.50.8', '205.174.165.81']
 VICTIM_IP_TEST = ['192.168.50.4', '192.168.50.6', '192.168.50.7', '192.168.50.8', '192.168.50.9', '205.174.165.81']
-INIT_NORM_INFO = {'highest_layer': set(),'MAX_frame_len':0.0,'MAX_tcp_flags':0.0,'MAX_tcp_window_size':0.0,
-                  'MAX_tcp_len':0.0,'MAX_tcp_ack':0.0,'MAX_udp_len':0.0,'MIN_frame_len':0.0,'MIN_tcp_flags':0.0,
-                  'MIN_tcp_window_size':0.0,'MIN_tcp_len':0.0,'MIN_tcp_ack':0.0,'MIN_udp_len':0.0 }
+INIT_NORM_INFO = {'highest_layer': set(),'MAX_frame_len':0,'MAX_tcp_flags':0,'MAX_tcp_window_size':0,
+                  'MAX_tcp_len':0,'MAX_tcp_ack':0,'MAX_udp_len':0,'MIN_frame_len':0,'MIN_tcp_flags':0,
+                  'MIN_tcp_window_size':0,'MIN_tcp_len':0,'MIN_tcp_ack':0,'MIN_udp_len':0}
 THREADLIMIT = 10
 FLOWGAP = 600  # unit:second
 WINDOW_TIME = 100
@@ -37,6 +37,5 @@ def save_list(l,f_name):
 
 def load_list(f_name):
     with open(f_name, "rb") as fp:
-        l = pickle.load(fp)
-    return l
+        return pickle.load(fp)
 

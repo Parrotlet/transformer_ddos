@@ -47,6 +47,6 @@ if __name__ == '__main__':
     # task.start
 
     flow_list_ = load_list('../temp/flow_list')
-    dim_num_ = load_list('../temp/norm_info')[-1] + FEATURE_NUM
+    dim_num_ = len(load_list('../temp/norm_info')['highest_layer']) + FEATURE_NUM
     data_np_ = flow_to_numpy(flow_list_,dim_num_)
     np.save('../temp/data_np',data_np_)
