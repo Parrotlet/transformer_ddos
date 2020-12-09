@@ -96,5 +96,5 @@ if __name__ == '__main__':
     # task.start
 
     packet_list_,norm_info_ = read_pcap()
-    save_list(packet_list_,'packet_list')
-    save_list(norm_info_,'norm_info')
+    save_list(packet_list_,'temp/packet_list')
+    save_list(norm_info_,'temp/norm_info')

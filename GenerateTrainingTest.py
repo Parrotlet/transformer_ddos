@@ -27,6 +27,7 @@ def flow_to_numpy(flow_list,dim_num):
             packet_np = packet_to_np(packet,label_)
             samples_list[a][assign_table[a]] = packet_np
             assign_table[a] += 1
+        # (sample_num,WINDOW_PACKET_NUMBER,dim_num)
         data_np = np.concatenate((data_np,np.asarray(samples_list)))
     return data_np
 
@@ -46,7 +47,7 @@ if __name__ == '__main__':
     # task = MP.Process(target=read_pcap)
     # task.start
 
-    flow_list_ = load_list('flow_list')
-    dim_num_ = load_list('norm_info')[-1] + FEATURE_NUM
+    flow_list_ = load_list('temp/flow_list')
+    dim_num_ = load_list('temp/norm_info')[-1] + FEATURE_NUM
     data_np_ = flow_to_numpy(flow_list_,dim_num_)
-    np.save('data_np',data_np_)
+    np.save('temp/data_np',data_np_)
