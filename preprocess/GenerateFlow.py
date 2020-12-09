@@ -38,7 +38,7 @@ if __name__ == '__main__':
     # task = MP.Process(target=read_pcap)
     # task.start
 
-    packet_list_ = load_list('../temp/flow_list')
+    packet_list_ = load_list('../temp/packet_list')
     norm_info_ = load_list('../temp/norm_info')
 
     flow_list_ = generate_flow(packet_list_,norm_info_,FLOWGAP)
