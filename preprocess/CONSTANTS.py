@@ -1,6 +1,7 @@
 import pickle
 
-CSV_PATH_1 = 'csv/01-12/'
+CSV_PATH_1 = '../csv/01-12/'
+CSV_PATH_2 = '../csv/03-11/'
 # csv_list_1 = ['DrDoS_NTP.csv','DrDoS_DNS.csv','DrDoS_LDAP.csv','DrDoS_MSSQL.csv','DrDoS_NetBIOS.csv',
 #               'DrDoS_SNMP.csv','DrDoS_SSDP.csv','DrDoS_UDP.csv','UDPLag.csv','Syn.csv','TFTP.csv']
 CSV_LIST_1 = ['DrDoS_NTP.csv']
